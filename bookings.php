@@ -1,0 +1,140 @@
+<?php
+session_start();
+
+include_once('inc/header.inc.php');
+include_once('inc/dbh.inc.php');
+headerOutput('Bookings', array("assets/styles/bootstrap.css", "assets/styles/stylesheet.css", "assets/styles/picker.css"));
+navigationOutput('Bookings');
+?>
+
+<div id="bookingTableContent" class="col-sm" style="background-color: #1e1e1e">
+    <table id="bookingTable" class="custom-table table table-striped table-bordered table-sm">
+        <thead>
+        <tr>
+            <th class="th-sm">Booking Reference</th>
+            <th class="th-sm">Barbershop</th>
+            <th class="th-sm">Date/Time Booked</th>
+            <th class="th-sm">Status</th>
+            <th class="th-sm">Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        if (isset($_SESSION["email"])) {
+
+            $sql = "SELECT `booking`.*, barbershop.name, barbershop.branch, customer.first_name, customer.last_name FROM `booking` INNER JOIN `barbershop` ON booking.barbershop_id = barbershop.barbershop_id INNER JOIN `customer` ON booking.email = customer.email WHERE booking.email = '" . $_SESSION["email"] . "'";
+            $result = mysqli_query($db, $sql);
+            $resultCheck = mysqli_num_rows($result);
+
+            if ($resultCheck > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+
+                    ?>
+
+                    <?php
+                    echo "<tr><td>" . $row["booking_reference"] . "</td>";
+                    echo "<td>" . $row["name"] . " (" . $row["branch"] . ")</td>";
+                    echo "<td>" . date("d-m-Y g:i A", strtotime($row["date_time_booked"])) . "</td>";
+                    if (intval($row["status"]) == 1) {
+                        echo "<td style='color: red'>";
+                        echo "Cancelled";
+                    } else {
+                        echo "<td style='color: green'>";
+                        echo "Active";
+                    }
+                    echo "</td><td>
+                <button type='button' class='view-booking-details btn' data-toggle='modal' data-target='#" . $row["booking_reference"] . "'>VIEW<i class='fas fa-eye' style='padding: 5px'></i>
+                </button></td></tr>";
+
+                    ?>
+                    <!-- View Booking Details Modal -->
+                    <div class="modal modal-container" id="<?php echo $row['booking_reference']; ?>" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="modal-title">
+                                        <h5>Booking Details - <?php echo $row['booking_reference']; ?></h5>
+                                    </div>
+                                    <a class="btn btn-default modal-close-btn" data-dismiss="modal">&times;</a>
+                                </div>
+                                <div class="modal-body p-4">
+                                    <div class="row">
+                                        <div class="col-sm-auto">
+                                            <!-- Add modal content here -->
+                                            <h6>Full Name: <?php echo $row['first_name'];
+                                                echo ' ';
+                                                echo $row['last_name'] ?></h6>
+                                            <div class="modal-separator"></div>
+                                            <p>hehehe</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-default modal-close-btn btn-danger" data-toggle="modal"
+                                            data-target="#<?php echo $row['booking_reference'] ?>Cancel">Cancel Booking</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cancel Booking Modal -->
+                    <div class="modal modal-container" id="<?php echo $row['booking_reference']; ?>Cancel"
+                         role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="modal-title">
+                                        <h5>CANCELLING BOOKING</h5>
+                                    </div>
+                                </div>
+                                <div class="modal-body p-4">
+                                    <div class="row">
+                                        <div class="col-sm-auto">
+                                            <!-- Add modal content here -->
+                                            <p>Are you sure you want to cancel booking number
+                                                <b><?php echo $row['booking_reference'] ?></b>?</p>
+                                            <b>If a deposit has been made, you will lose it!</b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="post" action="inc/cancel_booking.inc.php">
+                                        <input type="hidden" name="booking_ref" value="<?php echo $row["booking_reference"] ?>">
+                                        <button type="submit" class="btn btn-default modal-close-btn btn-success" name="cancel_booking">YES
+                                        </button>
+                                        <button class="btn btn-default modal-close-btn btn-danger" data-dismiss="modal">NO</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php
+                }
+            } else {
+                echo "No data";
+            }
+        }
+        ?>
+        <!--        <tr>-->
+        <!--            <td>1</td>-->
+        <!--            <td>Abdul</td>-->
+        <!--            <td>10/12/2020 10:00</td>-->
+        <!--            <td>Waves & Fades (Wembley)</td>-->
+        <!--            <td>Omran</td>-->
+        <!--            <td>-->
+        <!--                <button class="view-booking-details">VIEW<i class="fas fa-eye" style="padding: 5px"></i>-->
+        <!--                </button>-->
+        <!--            </td>-->
+        <!--        </tr>-->
+        </tbody>
+        <tfoot>
+        <tr>
+            <th class="th-sm">Booking Reference</th>
+            <th class="th-sm">Barbershop</th>
+            <th class="th-sm">Email</th>
+            <th class="th-sm">Date/Time Booked</th>
+            <th class="th-sm">Status</th>
+        </tr>
+        </tfoot>
+    </table>
+</div>

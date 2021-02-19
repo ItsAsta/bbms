@@ -1,0 +1,367 @@
+html, body {
+    background-color: #121212;
+    color: #d9d9d9;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: FuturaLight, "Times New Roman", serif;
+    font-size: 1rem;
+    letter-spacing: 3px;
+}
+
+button {
+    margin: 5px;
+    padding: 2px 10px;
+    border-radius: 25px;
+    border: solid #d9d9d9 1px;
+    outline: none !important;
+    box-shadow: none;
+    transition: all .1s ease-in-out;
+    background-color: #d9d9d9;
+    color: #121212;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-size: 0;
+}
+
+li {
+    font-size: 1rem;
+}
+
+.container {
+    box-shadow: 0 0 15px 15px rgba(0,0,0,0.5);
+}
+
+/*Hides the horizontal and vertical scrollbar from our website.*/
+::-webkit-scrollbar {
+    display: none;
+}
+
+/*We used a custom font for our website. So we link a path to our font.*/
+/*However, the script below checks if we got a local copy of our custom font on the system.
+  If not, we'll use the font from our directory.*/
+@font-face {
+    font-family: FuturaBold;
+    src: url(fonts/FuturaBoldfont.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: FuturaLight;
+    src: url(fonts/FuturaLightfont.ttf) format('truetype');
+}
+
+/*NAVIGATION BAR*/
+/*We use this to highlight the page that the user is currently on, through the navigation bar.*/
+#active a {
+    background-color: #370003;
+}
+
+.nav-bar ul {
+    font-family: FuturaLight, "Times New Roman", serif;
+    background-color: #1e1e1e;
+    text-align: center;
+    overflow: hidden;
+}
+
+.nav-bar li {
+    display: inline;
+    font-size: 18px;
+    -webkit-animation-name: drop-down-animation;
+    -webkit-animation-duration: 0.4s;
+    animation-name: drop-down-animation;
+    animation-duration: 0.4s
+}
+
+.nav-bar li a {
+    display: inline-block;
+    padding: 10px 30px;
+    text-decoration: none;
+    color: #d9d9d9;
+    transition: all .2s ease-in-out;
+}
+
+
+.nav-bar li a:hover {
+    /*background-color: #111;*/
+    text-decoration: none;
+    color: white;
+    transform: scale(1.1);
+}
+
+/*INDEX*/
+.barbershop-landing-heading {
+    font-size: 22px;
+    text-align: center;
+    display: block;
+}
+
+.landing-page-container {
+    display: block;
+    text-align: center;
+    padding: 50px;
+}
+
+/*SIDE NAV*/
+.side-nav li {
+    display: block;
+    border: darkgray solid 1px;
+}
+
+.side-nav li a {
+    display: inline-block;
+    padding: 5px 15px;
+    text-decoration: none;
+    color: #d9d9d9;
+}
+
+.side-nav li:hover {
+    cursor: pointer;
+    background-color: #343537;
+    color: white;
+}
+
+.side-nav {
+    border-right: darkgray solid 1px;
+    padding: 0
+}
+
+.side-nav-content-pad {
+    padding: 15px;
+    max-width: 100%;
+}
+
+.side-nav-content-pad input {
+    width: 200px;
+}
+
+/*TABLE*/
+
+.custom-table th, .custom-table td {
+    color: #d9d9d9;
+    padding: 5px 20px 5px 20px;
+    text-align: center;
+    border-collapse: collapse;
+    text-transform: uppercase;
+    font-weight: normal;
+    border: 1px solid #121212 !important;
+}
+
+.custom-table th {
+    background-color: #373737;
+    color: #d9d9d9;
+}
+
+.custom-table i {
+    color: #121212;
+    transition: all .1s ease-in-out;
+}
+
+
+.custom-table button:hover i, button:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+    color: #d9d9d9;
+    background-color: #121212;
+}
+
+#bookingTable_filter {
+    margin-top: 7px;
+}
+
+#bookingTable_filter input {
+    margin-top: 5px;
+}
+
+#bookingTableContent {
+    display: block;
+    -webkit-animation-name: drop-down-animation;
+    -webkit-animation-duration: 0.4s;
+    animation-name: drop-down-animation;
+    animation-duration: 0.4s
+}
+
+/*MODAL DIALOG*/
+
+.modal-container {
+    position: fixed;
+    /*z-index: 1;*/
+    padding: 5% 10%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /*overflow: auto;*/
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    /*background-color: #121212;*/
+    /*border: solid #1e1e1e 2px;*/
+}
+
+.modal-content {
+    background-color: #121212;
+    border: solid #1e1e1e 1px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 5px rgba(0,0,0,0.5);
+    -webkit-animation-name: drop-down-animation;
+    -webkit-animation-duration: 0.4s;
+    animation-name: drop-down-animation;
+    animation-duration: 0.4s
+}
+
+.modal-close-btn:hover {
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+    transform: scale(1.05);
+}
+
+.modal-separator {
+    border-left: 1px solid #d9d9d9;
+    max-height: 100%;
+}
+
+/*Barbershop Form*/
+
+.form-row input {
+    display: block;
+    width: auto;
+    box-shadow: none;
+    min-width: 300px;
+    height: 30px;
+    outline: 0;
+    text-decoration: none;
+}
+
+.form-row select {
+    display: block;
+    width: auto;
+    box-shadow: none;
+    min-width: 300px;
+    height: 30px;
+    outline: 0;
+    text-decoration: none;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 10px 5px rgba(0,0,0,0.5);
+    outline: none;
+}
+
+input:focus, textarea:focus, select:focus{
+    outline: none;
+}
+
+.form-row select {
+    width: auto;
+    min-width: 300px;
+    height: 30px;
+}
+
+.form-button {
+    width: 100px;
+}
+
+.form-group label {
+    margin-top: 5px;
+}
+
+.form-group {
+    margin: 20px;
+}
+
+/*BARBERS OVERVIEW*/
+#barbersOverview .col-sm {
+    margin: 25px;
+    border: solid #555555 1px;
+    border-radius: 10px;
+}
+
+#barbersOverview button {
+    margin: 10px 0;
+}
+
+.barbers-col {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
+    padding: 10px 25px 10px 25px;
+    margin: 25px;
+    border: 1px solid black;
+    text-align: center;
+}
+
+/*BARBERS FORM*/
+
+#barbershopMgmForm textarea {
+    width: 400px;
+    height: 100px;
+}
+
+/*FORM*/
+.form-wrapper b:hover {
+    cursor: pointer;
+}
+
+.form-wrapper b:hover {
+    cursor: pointer;
+}
+.form-wrapper p {
+    text-align: center;
+}
+
+.form-wrapper label {
+    margin-top: 5px;
+}
+
+.button-wrapper {
+    text-align: center;
+}
+
+.button-wrapper button {
+    margin: 5px 0;
+    min-width: 200px;
+}
+
+form {
+    padding: 25px;
+}
+
+.form-row {
+    justify-content: center;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
+
+/* Add Animation */
+@-webkit-keyframes drop-down-animation {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes drop-down-animation {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@-webkit-keyframes left-right-animation {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes left-right-animation {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
