@@ -45,7 +45,7 @@ if (empty($_SESSION["email"])) {
                     ?>
 
                     <label for="bookedDate">Date</label>
-                    <input name="bookedDate" id="bookedDate">
+                    <input name="bookedDate" id="bookedDate" autocomplete="disabled">
                 </div>
                 <div class="form-group">
                     <select name="bookBarberSelect" id="bookBarberSelect">
@@ -65,7 +65,9 @@ if (empty($_SESSION["email"])) {
                     echo "<input name='" . $row["phone_number"] . "' id='" . $row["phone_number"] . "' value='" . $row["phone_number"] . "' disabled>";
                     ?>
                     <label for="bookedTime">Time</label>
-                    <input name="bookedTime" id="bookedTime" class="bookedTime">
+                    <select name="bookedTime" id="bookedTime" class="bookedTime">
+                        <option disabled selected value>Select Time</option>
+                    </select>
 
 
                     <div id="tester"></div>
