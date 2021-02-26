@@ -34,7 +34,7 @@ navigationOutput('Home');
                 if ($_GET["error"] == "empty") {
                     echo "<p class='error'>One or more fields are empty!</p>";
                     exit();
-                } elseif ($_GET["error"] == "nonexistant") {
+                } elseif ($_GET["error"] == "nonexistent") {
                     echo "<p class='error'>Email does not exist!</p>";
                     exit();
                 } elseif ($_GET["error"] == "wronglogin") {

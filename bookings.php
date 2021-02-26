@@ -22,20 +22,19 @@ navigationOutput('Bookings');
         <?php
         if (isset($_SESSION["email"])) {
 
-            $sql = "SELECT `booking`.*, barbershop.name, barbershop.branch, customer.first_name, customer.last_name FROM `booking` INNER JOIN `barbershop` ON booking.barbershop_id = barbershop.barbershop_id INNER JOIN `customer` ON booking.email = customer.email WHERE booking.email = '" . $_SESSION["email"] . "'";
+            $sql = "SELECT `booking`.*, barbershop.barbershop_name, barbershop.barbershop_branch, customer.customer_first_name, customer.customer_last_name, barber.barber_name FROM `booking` INNER JOIN `barbershop` ON booking.barbershop_id = barbershop.barbershop_id INNER JOIN `customer` ON booking.booking_email = customer.customer_email INNER JOIN `barber` ON booking.barber_id = barber.barber_id WHERE booking.booking_email = '" . $_SESSION["email"] . "'";
             $result = mysqli_query($db, $sql);
             $resultCheck = mysqli_num_rows($result);
 
             if ($resultCheck > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-
                     ?>
 
                     <?php
                     echo "<tr><td>" . $row["booking_reference"] . "</td>";
-                    echo "<td>" . $row["name"] . " (" . $row["branch"] . ")</td>";
-                    echo "<td>" . date("d-m-Y g:i A", strtotime($row["date_time_booked"])) . "</td>";
-                    if (intval($row["status"]) == 1) {
+                    echo "<td>" . $row["barbershop_name"] . " (" . $row["barbershop_branch"] . ")</td>";
+                    echo "<td>" . date("d-m-Y g:i A", strtotime($row["booking_date_time_booked"])) . "</td>";
+                    if (intval($row["booking_status"]) == 1) {
                         echo "<td style='color: red'>";
                         echo "Cancelled";
                     } else {
@@ -53,7 +52,20 @@ navigationOutput('Bookings');
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <div class="modal-title">
-                                        <h5>Booking Details - <?php echo $row['booking_reference']; ?></h5>
+                                        <h5 style="font-weight: bold">Booking
+                                            No. <?php echo $row['booking_reference']; ?></h5>
+                                        <h6 style="font-weight: bold"><?php echo $row['customer_first_name'];
+                                            echo ' ';
+                                            echo $row['customer_last_name'] ?></h6>
+
+                                        <?php if (intval($row["booking_status"]) == 1) {
+                                            echo "<h6 style='color: red'>";
+                                            echo "Cancelled </h6>";
+                                        } else {
+                                            echo "<h6 style='color: green'>";
+                                            echo "Active </h6>";
+                                        } ?>
+
                                     </div>
                                     <a class="btn btn-default modal-close-btn" data-dismiss="modal">&times;</a>
                                 </div>
@@ -61,17 +73,15 @@ navigationOutput('Bookings');
                                     <div class="row">
                                         <div class="col-sm-auto">
                                             <!-- Add modal content here -->
-                                            <h6>Full Name: <?php echo $row['first_name'];
-                                                echo ' ';
-                                                echo $row['last_name'] ?></h6>
-                                            <div class="modal-separator"></div>
-                                            <p>hehehe</p>
+                                            <h6>Barber: <?php echo $row['barber_name']; ?></h6>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-default modal-close-btn btn-danger" data-toggle="modal"
-                                            data-target="#<?php echo $row['booking_reference'] ?>Cancel">Cancel Booking</button>
+                                    <button type="submit" class="btn btn-default modal-close-btn btn-danger"
+                                            data-toggle="modal"
+                                            data-target="#<?php echo $row['booking_reference'] ?>Cancel">Cancel Booking
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -98,10 +108,14 @@ navigationOutput('Bookings');
                                 </div>
                                 <div class="modal-footer">
                                     <form method="post" action="inc/cancel_booking.inc.php">
-                                        <input type="hidden" name="booking_ref" value="<?php echo $row["booking_reference"] ?>">
-                                        <button type="submit" class="btn btn-default modal-close-btn btn-success" name="cancel_booking">YES
+                                        <input type="hidden" name="booking_ref"
+                                               value="<?php echo $row["booking_reference"] ?>">
+                                        <button type="submit" class="btn btn-default modal-close-btn btn-success"
+                                                name="cancel_booking">YES
                                         </button>
-                                        <button class="btn btn-default modal-close-btn btn-danger" data-dismiss="modal">NO</button>
+                                        <button class="btn btn-default modal-close-btn btn-danger" data-dismiss="modal">
+                                            NO
+                                        </button>
                                     </form>
                                 </div>
                             </div>

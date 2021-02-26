@@ -26,22 +26,22 @@ if (empty($_SESSION["email"])) {
                         $resultCheck = mysqli_num_rows($result);
 
                         while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<option value='" . $row["barbershop_id"] . "'>" . $row["name"] . " (" . $row["branch"] . ")</option>";
+                            echo "<option value='" . $row["barbershop_id"] . "'>" . $row["barbershop_name"] . " (" . $row["barbershop_branch"] . ")</option>";
                         }
                         ?>
                     </select>
                     <br>
                     <?php
-                    $sql = "SELECT * FROM customer WHERE email = '" . $_SESSION["email"] . "'";
+                    $sql = "SELECT * FROM customer WHERE customer_email = '" . $_SESSION["email"] . "'";
                     $result = mysqli_query($db, $sql);
                     $resultCheck = mysqli_num_rows($result);
                     $row = mysqli_fetch_assoc($result);
 
-                    echo "<label for='" . $row["first_name"] . " " . $row["last_name"] . "'>Name</label>";
-                    echo "<input name='" . $row["first_name"] . " " . $row["last_name"] . "' id='" . $row["first_name"] . " " . $row["last_name"] . "' value='" . $row["first_name"] . " " . $row["last_name"] . "' disabled>";
+                    echo "<label for='" . $row["customer_first_name"] . " " . $row["customer_last_name"] . "'>Name</label>";
+                    echo "<input name='" . $row["customer_first_name"] . " " . $row["customer_last_name"] . "' id='" . $row["customer_first_name"] . " " . $row["customer_last_name"] . "' value='" . $row["customer_first_name"] . " " . $row["customer_last_name"] . "' disabled>";
 
-                    echo "<label for='" . $row["email"] . "'>Email</label>";
-                    echo "<input name='" . $row["email"] . "' id='" . $row["email"] . "' value='" . $row["email"] . "' disabled>";
+                    echo "<label for='" . $row["customer_email"] . "'>Email</label>";
+                    echo "<input name='" . $row["customer_email"] . "' id='" . $row["customer_email"] . "' value='" . $row["customer_email"] . "' disabled>";
                     ?>
 
                     <label for="bookedDate">Date</label>
@@ -53,22 +53,20 @@ if (empty($_SESSION["email"])) {
                     </select>
                     <br>
                     <?php
-                    $sql = "SELECT * FROM customer WHERE email = '" . $_SESSION["email"] . "'";
+                    $sql = "SELECT * FROM customer WHERE customer_email = '" . $_SESSION["email"] . "'";
                     $result = mysqli_query($db, $sql);
                     $resultCheck = mysqli_num_rows($result);
                     $row = mysqli_fetch_assoc($result);
 
-                    echo "<label for='" . $row["address"] . ", " . $row["postcode"] . "'>Address</label>";
-                    echo "<input name='" . $row["address"] . ", " . $row["postcode"] . "' id='" . $row["address"] . ", " . $row["postcode"] . "' value='" . $row["address"] . ", " . $row["postcode"] . "' disabled>";
+                    echo "<label for='" . $row["customer_address"] . ", " . $row["customer_postcode"] . "'>Address</label>";
+                    echo "<input name='" . $row["customer_address"] . ", " . $row["customer_postcode"] . "' id='" . $row["customer_address"] . ", " . $row["customer_postcode"] . "' value='" . $row["customer_address"] . ", " . $row["customer_postcode"] . "' disabled>";
 
-                    echo "<label for='" . $row["phone_number"] . "'>Email</label>";
-                    echo "<input name='" . $row["phone_number"] . "' id='" . $row["phone_number"] . "' value='" . $row["phone_number"] . "' disabled>";
+                    echo "<label for='" . $row["customer_phone_number"] . "'>Email</label>";
+                    echo "<input name='" . $row["customer_phone_number"] . "' id='" . $row["customer_phone_number"] . "' value='" . $row["customer_phone_number"] . "' disabled>";
                     ?>
                     <label for="bookedTime">Time</label>
                     <input name="bookedTime" id="bookedTime" class="bookedTime" placeholder="Select Time">
 
-
-                    <button type="button" id="tester">Tester</button>
                 </div>
             </div>
         </div>

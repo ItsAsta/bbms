@@ -17,7 +17,7 @@ function emptyRegisterInput($email, $password, $confirmPassword, $firstName, $la
 }
 
 function customerExists($db, $email) {
-    $sql = "SELECT * FROM customer WHERE email = ?;";
+    $sql = "SELECT * FROM customer WHERE customer_email = ?;";
     $stmt = mysqli_stmt_init($db);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -40,7 +40,7 @@ function customerExists($db, $email) {
 }
 
 function registerCustomer($db, $email, $password, $firstName, $lastName, $address, $postcode, $phoneNumber) {
-    $sql = "INSERT INTO customer (email, password, first_name, last_name, address, postcode, phone_number) VALUES
+    $sql = "INSERT INTO customer (customer_email, customer_password, customer_first_name, customer_last_name, customer_address, customer_postcode, customer_phone_number) VALUES
                             (?, ?, ?, ?, ?, ?, ?);";
     $stmt = mysqli_stmt_init($db);
 
@@ -77,14 +77,14 @@ function loginCustomer($db, $email, $password) {
         exit();
     }
 
-    $passwordHashed = $emailExists["password"];
+    $passwordHashed = $emailExists["customer_password"];
     $checkPassword = password_verify($password, $passwordHashed);
 
     if ($checkPassword === false) {
         header("location: ../login.php?error=wronglogin");
     } else {
         session_start();
-        $_SESSION["email"] = $emailExists["email"];
+        $_SESSION["email"] = $emailExists["customer_email"];
         header("location: ../index.php");
         exit();
     }
@@ -113,7 +113,7 @@ function bookAppointment($db, $barbershopId, $barberId, $email, $bookedDate, $bo
 
     $bookedDateTime = $bookedDate . " " . $bookedTime;
 
-    $sql = "INSERT INTO `booking`(`barbershop_id`, `barber_id`, `email`, `date_time_of_booking`, `date_time_booked`, `status`) VALUES
+    $sql = "INSERT INTO `booking` (`barbershop_id`, `barber_id`, `booking_email`, `booking_date_time_of_booking`, `booking_date_time_booked`, `booking_status`) VALUES
            (?, ?, ?, ?, ?, ?)";
 
     $stmt = mysqli_stmt_init($db);
@@ -132,7 +132,7 @@ function bookAppointment($db, $barbershopId, $barberId, $email, $bookedDate, $bo
 }
 
 function cancelBooking($db, $booking_reference) {
-    $sql = "UPDATE `booking` SET `status`=1 WHERE booking_reference = ?;";
+    $sql = "UPDATE `booking` SET `booking_status`=1 WHERE booking_reference = ?;";
 
     $stmt = mysqli_stmt_init($db);
 

@@ -5,7 +5,7 @@ $(document).ready(function () {
         "bFilter": true,
         "bInfo": false,
         "bAutoWidth": false,
-        "aaSorting": [ [3,'asc'], [2,'asc'] ],
+        "aaSorting": [ [3,'asc'], [2,'desc'] ],
     });
 
     $('#BarbershopSearch').picker({
