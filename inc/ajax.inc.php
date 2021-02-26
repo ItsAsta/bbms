@@ -8,11 +8,33 @@ if (isset($_POST["populateBarbers"])) {
     $sql = "SELECT * FROM barbers WHERE barbershop_id = " . $_POST['barbershopId'] . ";";
     $result = mysqli_query($db, $sql);
     $resultCheck = mysqli_num_rows($result);
+    $barbers = array();
 
-    echo "<option disabled selected value>Select Barber</option>";
+//    echo "<option disabled selected value>Select Barber</option>";
+    array_push($barbers, "<option disabled selected value>Select Barber</option>");
     while ($row = mysqli_fetch_assoc($result)) {
-        echo "<option value='" . $row["id"] . "'>" . $row["name"] . "</option>";
+//        echo "<option value='" . $row["id"] . "'>" . $row["name"] . "</option>";
+        array_push($barbers, "<option value='" . $row["id"] . "'>" . $row["name"] . "</option>");
     }
+
+    $sql = "SELECT `weekday` FROM `opening_hours` WHERE `barbershop_id` = " . $_POST["barbershopId"];
+    $result = mysqli_query($db, $sql);
+    $resultCheck = mysqli_num_rows($result);
+    $openWeekdays = array();
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        array_push($openWeekdays, array('openWeekdays' => $row["weekday"]));
+    }
+
+    $jsonBarbers = json_encode(implode($barbers));
+    $jsonOpenWeekdays = json_encode($openWeekdays);
+
+    $data = array();
+
+    array_push($data, $jsonBarbers, $jsonOpenWeekdays);
+
+    $jsonData = json_encode($data);
+    echo $jsonData;
 }
 
 if (isset($_POST["bookedTimes"])) {

@@ -65,12 +65,10 @@ if (empty($_SESSION["email"])) {
                     echo "<input name='" . $row["phone_number"] . "' id='" . $row["phone_number"] . "' value='" . $row["phone_number"] . "' disabled>";
                     ?>
                     <label for="bookedTime">Time</label>
-                    <select name="bookedTime" id="bookedTime" class="bookedTime">
-                        <option disabled selected value>Select Time</option>
-                    </select>
+                    <input name="bookedTime" id="bookedTime" class="bookedTime" placeholder="Select Time">
 
 
-                    <div id="tester"></div>
+                    <button type="button" id="tester">Tester</button>
                 </div>
             </div>
         </div>

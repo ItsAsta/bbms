@@ -20,11 +20,21 @@ $(document).ready(function () {
             url:'inc/ajax.inc.php',
             data:{
                 barbershopId:selectedBarbershop,
+                daysDisabled: "",
                 populateBarbers: "",
             },
             type: 'post',
+            dataType: 'json',
             success : function(resp){
-                $("#bookBarberSelect").html(resp);
+
+                $("#bookBarberSelect").html(JSON.parse(resp[0]))
+                $("#bookedDate").datepicker('destroy');
+                $('#bookedDate').datepicker({
+                    startDate: new Date(),
+                    endDate: "+2w",
+                    autoclose: true,
+                    daysOfWeekDisabled: getOpenWeekdays(resp[1])
+                });
             },
             error : function(resp){
                 console.log(resp)
@@ -32,26 +42,15 @@ $(document).ready(function () {
         });
     });
 
-    // $('#bookedTime').focus(function () {
-    //     console.log("heeo")
-    //     $('#bookedTime').timepicker('option', {
-    //         timeFormat: 'h:i A',
-    //         step: 60,
-    //     });
-    // })
-
     $('#bookedDate').datepicker({
         startDate: new Date(),
         endDate: "+2w",
-        daysOfWeekDisabled: [0,6],
         autoclose: true,
     }).on('change', function () {
-        let selectedTime = $("#bookedTime").val();
         let selectedDate= new Date($("#bookedDate").val()).toISOString().split('T')[0];
         let selectedBarbershop = $("#bookBarbershopSelect").val();
         let selectedBarber = $("#bookBarberSelect").val();
 
-        // console.log($(this).datepicker("getDate").getFullYear() + "-" + ('0' + $(this).datepicker("getDate").getMonth()).slice(-2) + "-" + ('0' + $(this).datepicker("getDate").getDate()).slice(-2))
         $.ajax({
             url:'inc/ajax.inc.php',
             data:{
@@ -59,15 +58,11 @@ $(document).ready(function () {
                 barberId:selectedBarber,
                 weekday: $(this).datepicker("getDate").getDay(),
                 date: selectedDate,
-                // time: '09:30:00',
-                openTime: null,
-                closeTime: null,
                 bookedTimes: ""
             },
             type: 'post',
             dataType: 'json',
             success : function(resp){
-                // console.log(buildBookedTimes(resp[0]))
                 $('#bookedTime').timepicker('remove').timepicker({
                     timeFormat: 'h:i A',
                     minTime: resp[1].open_time,
@@ -82,44 +77,25 @@ $(document).ready(function () {
             }
         });
     });
-
-    // $('#bookBarberSelect').change(function () {
-    //     let selectedBarbershop = $("#bookBarbershopSelect").val();
-    //     let selectedBarber = $("#bookBarberSelect").val();
-    //
-    //     $.ajax({
-    //         url:'inc/ajax.inc.php',
-    //         data:{
-    //             barbershopId:selectedBarbershop,
-    //             barberId:selectedBarber,
-    //             bookedTimes: ""
-    //         },
-    //         type: 'post',
-    //         dataType: 'json',
-    //         success : function(resp){
-    //             // $('#bookedTime').timepicker('remove').timepicker({
-    //             //     timeFormat: 'h:i A',
-    //             //     minTime: '9:00am',
-    //             //     maxTime: '6:00pm',
-    //             //     step: 30,
-    //             //     useSelect: true,
-    //             //     'disableTimeRanges': buildBookedTimes(resp)
-    //             // });
-    //         },
-    //         error : function(resp){
-    //             console.log(resp)
-    //         }
-    //     });
-    // });
 });
+
+function getOpenWeekdays(weekdays) {
+    let weekdaysArray = [0, 1, 2, 3, 4, 5, 6];
+    let jsonWeekdays = JSON.parse(weekdays);
+    for (let i = 0; i < jsonWeekdays.length; i++) {
+        for (let x = 0; x < weekdaysArray.length; x++) {
+            if (weekdaysArray[x] === parseInt(jsonWeekdays[i]["openWeekdays"])) {
+                weekdaysArray.splice(x, 1);
+            }
+        }
+    }
+
+    return weekdaysArray;
+}
 
 function buildBookedTimes(timeArray) {
     let parsedTime;
     let newArray = [];
-    let time;
-    let date;
-
-    // console.log(timeArray[0].date_time_booked)
 
     for (let i = 0; i < timeArray.length; i++) {
         parsedTime = new Date(timeArray[i].date_time_booked.split(" ")[0] + " " + timeArray[i].date_time_booked.split(" ")[1])
@@ -130,21 +106,9 @@ function buildBookedTimes(timeArray) {
 
         let time1 = h + ":" + m + ":" + s;
         let time2 = h + ":" + m + ":" + sEnd;
-        // console.log(parsedTime.getFullYear() + "-" + parsedTime.getMonth() + 1 + "-" + parsedTime.getDate());
 
         newArray.push([time1, time2])
     }
 
     return newArray;
 }
-
-// $("#barbershopMgmEditBtn").click(function () {
-//     $("#barbershopMgmForm").find("input, select").prop("disabled", false);
-//     $("#barbershopInputId").prop("disabled", true);
-// });
-//
-// $(".view-booking-details").click(function () {
-//     if (!$(".modal-details").is(":visible")) {
-//         $(".modal-details").css("display", "block");
-//     }
-// });
