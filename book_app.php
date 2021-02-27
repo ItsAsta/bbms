@@ -12,7 +12,7 @@ if (empty($_SESSION["email"])) {
 ?>
 
 <form method="post" action="inc/book_app.inc.php">
-    <h3>Login</h3>
+    <h3>Book Appointment</h3>
     <hr style="background-color: white">
     <div class="form-row">
         <div class="col-md-auto">

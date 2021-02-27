@@ -5,6 +5,9 @@ include_once('inc/header.inc.php');
 include_once('inc/dbh.inc.php');
 headerOutput('Bookings', array("assets/styles/bootstrap.css", "assets/styles/stylesheet.css", "assets/styles/picker.css"));
 navigationOutput('Bookings');
+if (empty($_SESSION["email"])) {
+    header("location: login.php");
+}
 ?>
 
 <div id="bookingTableContent" class="col-sm" style="background-color: #1e1e1e">
@@ -22,7 +25,7 @@ navigationOutput('Bookings');
         <?php
         if (isset($_SESSION["email"])) {
 
-            $sql = "SELECT `booking`.*, barbershop.barbershop_name, barbershop.barbershop_branch, customer.customer_first_name, customer.customer_last_name, barber.barber_name FROM `booking` INNER JOIN `barbershop` ON booking.barbershop_id = barbershop.barbershop_id INNER JOIN `customer` ON booking.booking_email = customer.customer_email INNER JOIN `barber` ON booking.barber_id = barber.barber_id WHERE booking.booking_email = '" . $_SESSION["email"] . "'";
+            $sql = "SELECT `booking`.*, `barbershop`.*, `customer`.*, `barber`.* FROM `booking` INNER JOIN `barbershop` ON booking.barbershop_id = barbershop.barbershop_id INNER JOIN `customer` ON booking.booking_email = customer.customer_email INNER JOIN `barber` ON booking.barber_id = barber.barber_id WHERE booking.booking_email = '" . $_SESSION["email"] . "'";
             $result = mysqli_query($db, $sql);
             $resultCheck = mysqli_num_rows($result);
 
@@ -73,15 +76,29 @@ navigationOutput('Bookings');
                                     <div class="row">
                                         <div class="col-sm-auto">
                                             <!-- Add modal content here -->
-                                            <h6>Barber: <?php echo $row['barber_name']; ?></h6>
+                                            <h6 style="font-weight: bold">Barbershop</h6> <h6><?php echo $row['barbershop_name']; ?></h6>
+                                            <h6 style="font-weight: bold">Barber</h6> <h6><?php echo $row['barber_name']; ?></h6>
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <!-- Add modal content here -->
+                                            <h6 style="font-weight: bold">Branch</h6> <h6><?php echo $row['barbershop_branch']; ?></h6>
+                                            <h6 style="font-weight: bold">Date & Time</h6> <h6><?php echo $row['booking_date_time_booked']; ?></h6>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-default modal-close-btn btn-danger"
+                                    <?php
+                                    if ($row["booking_status"] == 0) {
+                                        echo '<button type="submit" class="btn btn-default modal-close-btn btn-danger"
                                             data-toggle="modal"
-                                            data-target="#<?php echo $row['booking_reference'] ?>Cancel">Cancel Booking
-                                    </button>
+                                            data-target="#' . $row['booking_reference'] . 'Cancel">Cancel Booking
+                                    </button>';
+                                    }
+                                    ?>
+<!--                                    <button type="submit" class="btn btn-default modal-close-btn btn-danger"-->
+<!--                                            data-toggle="modal"-->
+<!--                                            data-target="#--><?php //echo $row['booking_reference'] ?><!--Cancel">Cancel Booking-->
+<!--                                    </button>-->
                                 </div>
                             </div>
                         </div>

@@ -59,6 +59,14 @@ function loopNavigation($currentPage)
     // An array variable with our file names which we'll redirect to using the HREF attribute.
     $fileNames = array("index.php", "bookings.php", "contact.php", "about.php", "login.php");
 
+    if (empty($_SESSION["email"])) {
+
+        array_splice($pageTitle, 1, 1);
+        array_splice($pageTitle, 2, 1);
+        array_splice($fileNames, 1, 1);
+        array_splice($fileNames, 2, 1);
+    }
+
     // We iterating over the length of $names array using a for loop.
     for ($i = 0; $i < count($pageTitle); $i++) {
         echo '<li ';

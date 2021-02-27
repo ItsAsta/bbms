@@ -57,13 +57,14 @@ function registerCustomer($db, $email, $password, $firstName, $lastName, $addres
     header("location: ../login.php?success=yes");
 }
 
-// Login
-function emptyLoginInput($email, $password) {
+function emptyInput($array) {
     $result = null;
-    if (empty($email) || empty($password)) {
-        $result = true;
-    } else {
-        $result = false;
+    foreach ($array as $value) {
+        if (empty($value)) {
+            $result = true;
+        } else {
+            $result = false;
+        }
     }
 
     return $result;
@@ -73,7 +74,7 @@ function loginCustomer($db, $email, $password) {
     $emailExists = customerExists($db, $email);
 
     if ($emailExists === false) {
-        header("location: ../login.php?error=nonexistant");
+        header("location: ../login.php?error=nonexistent");
         exit();
     }
 
@@ -90,26 +91,7 @@ function loginCustomer($db, $email, $password) {
     }
 }
 
-function incompleteBookingForm($barbershopId, $barberId, $bookedDate, $bookedTime) {
-    $result = null;
-    if (empty($barbershopId) || empty($barberId) || empty($bookedDate) || empty($bookedTime)) {
-        $result = true;
-    } else {
-        $result = false;
-    }
-
-    return $result;
-}
-
-
 function bookAppointment($db, $barbershopId, $barberId, $email, $bookedDate, $bookedTime, $currentDateTime, $status) {
-
-    if (incompleteBookingForm($barbershopId, $barberId, $bookedDate, $bookedTime)) {
-        header("location: ../book_app.php?error=incomplete");
-        exit();
-    }
-
-
 
     $bookedDateTime = $bookedDate . " " . $bookedTime;
 
@@ -146,6 +128,25 @@ function cancelBooking($db, $booking_reference) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     header("location: ../bookings.php");
+}
+
+function sendMessage($db, $email, $bookingRef, $subject, $message, $currentDateTime) {
+    $sql = "INSERT INTO `inbox` (`inbox_email`, `inbox_booking_reference`, `inbox_subject`, `inbox_message`, `inbox_date_time`) VALUES
+            (?, ?, ?, ?, ?)";
+
+    $stmt = mysqli_stmt_init($db);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../contact.php?contact=stmtFailed");
+        exit();
+    }
+
+
+    mysqli_stmt_bind_param($stmt, "sssss", $email, $bookingRef, $subject, $message, $currentDateTime);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    header("location: ../contact.php?success=yes");
 }
 
 // Redirects the page to the login page or view booking page depends if we are logged in.

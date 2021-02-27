@@ -2,8 +2,8 @@
 require __DIR__ . '/vendor/autoload.php';
 
 include_once('inc/header.inc.php');
-headerOutput('Home', array("assets/styles/bootstrap.css", "assets/styles/stylesheet.css", "assets/styles/picker.css"));
-navigationOutput('Home');
+headerOutput('Login', array("assets/styles/bootstrap.css", "assets/styles/stylesheet.css", "assets/styles/picker.css"));
+navigationOutput('Login');
 ?>
 
 <div class="container" style="background-color: #1e1e1e; margin: 50px; max-width: 100%">

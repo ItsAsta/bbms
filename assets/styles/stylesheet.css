@@ -36,6 +36,7 @@ li {
 
 .container {
     box-shadow: 0 0 15px 15px rgba(0,0,0,0.5);
+    max-width: 100%;
 }
 
 /*Hides the horizontal and vertical scrollbar from our website.*/
@@ -237,6 +238,11 @@ li {
     text-decoration: none;
 }
 
+.form-row textarea {
+    min-width: 300px;
+    min-height: 200px;
+}
+
 .form-row select {
     display: block;
     width: auto;
@@ -343,6 +349,26 @@ form {
 
 .error {
     color: red;
+}
+
+/* CONTACT PAGE */
+.contact-page textarea {
+    min-width: 500px;
+    min-height: 200px;
+}
+
+.contact-page input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.contact-page input {
+    display: block;
+    width: auto;
+    box-shadow: none;
+    min-width: 250px;
+    height: 30px;
+    outline: 0;
+    text-decoration: none;
 }
 
 /* Add Animation */
