@@ -9,18 +9,18 @@ navigationOutput('Login');
 <div class="container" style="background-color: #1e1e1e; margin: 50px; max-width: 100%">
     <div class="form-wrapper">
         <!-- LOGIN FORM -->
-        <form method="post" action="inc/login.inc.php" id="customerLoginForm">
+        <form method="post" action="inc/login.inc.php" id="userLoginForm">
             <h3>Login</h3>
             <hr style="background-color: white">
             <div class="form-row">
                 <div class="col-md-auto">
                     <div class="form-group">
-                        <label for="customerLoginEmail">Email</label>
-                        <input id="customerLoginEmail" type="email" name="email">
+                        <label for="userLoginEmail">Email</label>
+                        <input id="userLoginEmail" type="email" name="email">
                     </div>
                     <div class="form-group">
-                        <label for="customerPassword">Password</label>
-                        <input id="customerPassword" type="password" name="password">
+                        <label for="userPassword">Password</label>
+                        <input id="userPassword" type="password" name="password">
                     </div>
                 </div>
             </div>

@@ -24,8 +24,10 @@ if (empty($_SESSION["email"])) {
         <tbody>
         <?php
         if (isset($_SESSION["email"])) {
+            $iniSql = "UPDATE `booking` set `booking_status` = 1 WHERE booking_date_time_booked < CURRENT_DATE()";
+            $iniResult = mysqli_query($db, $iniSql);
 
-            $sql = "SELECT `booking`.*, `barbershop`.*, `customer`.*, `barber`.* FROM `booking` INNER JOIN `barbershop` ON booking.barbershop_id = barbershop.barbershop_id INNER JOIN `customer` ON booking.booking_email = customer.customer_email INNER JOIN `barber` ON booking.barber_id = barber.barber_id WHERE booking.booking_email = '" . $_SESSION["email"] . "'";
+            $sql = "SELECT `booking`.*, `barbershop`.*, `user`.*, `barber`.* FROM `booking` INNER JOIN `barbershop` ON booking.barbershop_id = barbershop.barbershop_id INNER JOIN `user` ON booking.booking_email = user.user_email INNER JOIN `barber` ON booking.barber_id = barber.barber_id WHERE booking.booking_email = '" . $_SESSION["email"] . "'";
             $result = mysqli_query($db, $sql);
             $resultCheck = mysqli_num_rows($result);
 
@@ -57,9 +59,9 @@ if (empty($_SESSION["email"])) {
                                     <div class="modal-title">
                                         <h5 style="font-weight: bold">Booking
                                             No. <?php echo $row['booking_reference']; ?></h5>
-                                        <h6 style="font-weight: bold"><?php echo $row['customer_first_name'];
+                                        <h6 style="font-weight: bold"><?php echo $row['user_first_name'];
                                             echo ' ';
-                                            echo $row['customer_last_name'] ?></h6>
+                                            echo $row['user_last_name'] ?></h6>
 
                                         <?php if (intval($row["booking_status"]) == 1) {
                                             echo "<h6 style='color: red'>";
@@ -76,13 +78,17 @@ if (empty($_SESSION["email"])) {
                                     <div class="row">
                                         <div class="col-sm-auto">
                                             <!-- Add modal content here -->
-                                            <h6 style="font-weight: bold">Barbershop</h6> <h6><?php echo $row['barbershop_name']; ?></h6>
-                                            <h6 style="font-weight: bold">Barber</h6> <h6><?php echo $row['barber_name']; ?></h6>
+                                            <h6 style="font-weight: bold">Barbershop</h6>
+                                            <h6><?php echo $row['barbershop_name']; ?></h6>
+                                            <h6 style="font-weight: bold">Barber</h6>
+                                            <h6><?php echo $row['barber_name']; ?></h6>
                                         </div>
                                         <div class="col-sm-auto">
                                             <!-- Add modal content here -->
-                                            <h6 style="font-weight: bold">Branch</h6> <h6><?php echo $row['barbershop_branch']; ?></h6>
-                                            <h6 style="font-weight: bold">Date & Time</h6> <h6><?php echo $row['booking_date_time_booked']; ?></h6>
+                                            <h6 style="font-weight: bold">Branch</h6>
+                                            <h6><?php echo $row['barbershop_branch']; ?></h6>
+                                            <h6 style="font-weight: bold">Date & Time</h6>
+                                            <h6><?php echo $row['booking_date_time_booked']; ?></h6>
                                         </div>
                                     </div>
                                 </div>
@@ -95,10 +101,11 @@ if (empty($_SESSION["email"])) {
                                     </button>';
                                     }
                                     ?>
-<!--                                    <button type="submit" class="btn btn-default modal-close-btn btn-danger"-->
-<!--                                            data-toggle="modal"-->
-<!--                                            data-target="#--><?php //echo $row['booking_reference'] ?><!--Cancel">Cancel Booking-->
-<!--                                    </button>-->
+                                    <!--                                    <button type="submit" class="btn btn-default modal-close-btn btn-danger"-->
+                                    <!--                                            data-toggle="modal"-->
+                                    <!--                                            data-target="#-->
+                                    <?php //echo $row['booking_reference'] ?><!--Cancel">Cancel Booking-->
+                                    <!--                                    </button>-->
                                 </div>
                             </div>
                         </div>
@@ -130,7 +137,8 @@ if (empty($_SESSION["email"])) {
                                         <button type="submit" class="btn btn-default modal-close-btn btn-success"
                                                 name="cancel_booking">YES
                                         </button>
-                                        <button class="btn btn-default modal-close-btn btn-danger" data-dismiss="modal">
+                                        <button class="btn btn-default modal-close-btn btn-danger"
+                                                data-dismiss="modal">
                                             NO
                                         </button>
                                     </form>

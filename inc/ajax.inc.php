@@ -40,7 +40,7 @@ if (isset($_POST["populateBarbers"])) {
 if (isset($_POST["bookedTimes"])) {
 //    header("location: ../book_app.php");
 
-    $sql = "SELECT `booking_date_time_booked` FROM `booking` WHERE `barbershop_id` = " . $_POST['barbershopId'] . " AND barber_id = " . $_POST["barberId"] . " AND DATE(booking_date_time_booked) = '" . $_POST["date"] . "'";
+    $sql = "SELECT `booking_date_time_booked` FROM `booking` WHERE `barbershop_id` = " . $_POST['barbershopId'] . " AND barber_id = " . $_POST["barberId"] . " AND DATE(booking_date_time_booked) = '" . $_POST["date"] . "' AND booking_status = 0";
 
     $result = mysqli_query($db, $sql);
     $resultCheck = mysqli_num_rows($result);

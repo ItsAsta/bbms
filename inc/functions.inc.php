@@ -16,8 +16,8 @@ function emptyRegisterInput($email, $password, $confirmPassword, $firstName, $la
     return $result;
 }
 
-function customerExists($db, $email) {
-    $sql = "SELECT * FROM customer WHERE customer_email = ?;";
+function userExists($db, $email) {
+    $sql = "SELECT * FROM user WHERE user_email = ?;";
     $stmt = mysqli_stmt_init($db);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -39,8 +39,8 @@ function customerExists($db, $email) {
     mysqli_stmt_close($stmt);
 }
 
-function registerCustomer($db, $email, $password, $firstName, $lastName, $address, $postcode, $phoneNumber) {
-    $sql = "INSERT INTO customer (customer_email, customer_password, customer_first_name, customer_last_name, customer_address, customer_postcode, customer_phone_number) VALUES
+function registerUser($db, $email, $password, $firstName, $lastName, $address, $postcode, $phoneNumber) {
+    $sql = "INSERT INTO user (user_email, user_password, user_first_name, user_last_name, user_address, user_postcode, user_phone_number) VALUES
                             (?, ?, ?, ?, ?, ?, ?);";
     $stmt = mysqli_stmt_init($db);
 
@@ -54,7 +54,7 @@ function registerCustomer($db, $email, $password, $firstName, $lastName, $addres
     mysqli_stmt_bind_param($stmt, "sssssss", $email, $hashedPassword, $firstName, $lastName, $address, $postcode, $phoneNumber);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("location: ../login.php?success=yes");
+    header("location: ../register.php?success=yes");
 }
 
 function emptyInput($array) {
@@ -70,22 +70,22 @@ function emptyInput($array) {
     return $result;
 }
 
-function loginCustomer($db, $email, $password) {
-    $emailExists = customerExists($db, $email);
+function loginUser($db, $email, $password) {
+    $emailExists = userExists($db, $email);
 
     if ($emailExists === false) {
         header("location: ../login.php?error=nonexistent");
         exit();
     }
 
-    $passwordHashed = $emailExists["customer_password"];
+    $passwordHashed = $emailExists["user_password"];
     $checkPassword = password_verify($password, $passwordHashed);
 
     if ($checkPassword === false) {
         header("location: ../login.php?error=wronglogin");
     } else {
         session_start();
-        $_SESSION["email"] = $emailExists["customer_email"];
+        $_SESSION["email"] = $emailExists["user_email"];
         header("location: ../index.php");
         exit();
     }

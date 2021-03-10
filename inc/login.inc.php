@@ -12,5 +12,5 @@ if (isset($_POST["login"])) {
         exit();
     }
 
-    loginCustomer($db, $email, $password);
+    loginUser($db, $email, $password);
 }

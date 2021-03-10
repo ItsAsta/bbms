@@ -60,7 +60,7 @@ li {
 /*NAVIGATION BAR*/
 /*We use this to highlight the page that the user is currently on, through the navigation bar.*/
 #active a {
-    background-color: #370003;
+    background-color: #00456e;
 }
 
 .nav-bar ul {
@@ -93,6 +93,7 @@ li {
     text-decoration: none;
     color: white;
     transform: scale(1.1);
+    background-color: #003a5a;
 }
 
 /*INDEX*/
@@ -168,7 +169,7 @@ li {
     transform: scale(1.05);
     cursor: pointer;
     color: #d9d9d9;
-    background-color: #121212;
+    background-color: #002437;
 }
 
 #bookingTable_filter {

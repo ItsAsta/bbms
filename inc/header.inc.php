@@ -52,7 +52,6 @@ function navigationOutput($currentPage)
 //This function will print out our navigation.
 function loopNavigation($currentPage)
 {
-    session_start();
     // An array variable with our page names, which we'll match using the index with our second array.
     $pageTitle = array("Home", "Bookings", "Contact", "About", "Login");
 

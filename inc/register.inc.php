@@ -23,7 +23,7 @@ if (isset($_POST["register"])) {
         header("location: ../register.php?error=email");
         exit();
     }
-    if (customerExists($db, $email) !== false) {
+    if (userExists($db, $email) !== false) {
         header("location: ../register.php?error=alreadyRegistered");
         exit();
     }
@@ -36,5 +36,5 @@ if (isset($_POST["register"])) {
         exit();
     }
 
-    registerCustomer($db, $email, $password, $firstName, $lastName, $address, $postcode, $phoneNumber);
+    registerUser($db, $email, $password, $firstName, $lastName, $address, $postcode, $phoneNumber);
 }
