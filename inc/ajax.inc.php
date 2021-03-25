@@ -5,7 +5,7 @@ require_once 'dbh.inc.php';
 
 if (isset($_POST["populateBarbers"])) {
 
-    $sql = "SELECT * FROM barber WHERE barbershop_id = " . $_POST['barbershopId'] . ";";
+    $sql = "SELECT * FROM barber WHERE barbershop_id = " . $_POST['barbershopId'] . " AND barber_status = 0";
     $result = mysqli_query($db, $sql);
     $resultCheck = mysqli_num_rows($result);
     $barbers = array();
@@ -59,7 +59,6 @@ if (isset($_POST["bookedTimes"])) {
     $jsonOpenCloseTimesObject = array();
 
     while ($row = mysqli_fetch_assoc($openCloseTimesResult)) {
-//        array_push($jsonOpenCloseTimesObject, array('open_time' => $row['open_time'], 'close_time' => $row['close_time']));
         $jsonOpenCloseTimesObject = array('open_time' => $row['opening_hours_open_time'], 'close_time' => $row['opening_hours_close_time']);
     }
 

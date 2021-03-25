@@ -14,10 +14,5 @@ if (isset($_POST["contactSendBtn"])) {
         exit();
     }
 
-    if (emptyInput(array($bookingRef))) {
-        sendMessage($db, $_SESSION["email"], 0, $subject, $message, $currentDateTime);
-        exit();
-    }
-
-    sendMessage($db, $_SESSION["email"], $bookingRef, $subject, $message, $currentDateTime);
+    receiveMessage($db, $_SESSION["email"], $bookingRef, $subject, $message, $currentDateTime);
 }

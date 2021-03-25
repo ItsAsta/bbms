@@ -40,12 +40,9 @@ navigationOutput('Login');
                 } elseif ($_GET["error"] == "wronglogin") {
                     echo "<p class='error'>Password is incorrect!</p>";
                     exit();
-                }
-            }
-
-            if (isset($_GET["success"])) {
-                if ($_GET["success"] == "yes") {
-                    echo "<p class='success'>Your account has been registered!</p>";
+                } elseif ($_GET["error"] == "stmtFailed") {
+                    echo "<p class='error'>Failed to login, please try again!</p>";
+                    exit();
                 }
             }
             ?>

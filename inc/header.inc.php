@@ -79,7 +79,7 @@ function loopNavigation($currentPage)
         }
 
         // We checking if the user is logged in by checking if there is any session set.
-        if (isset($_SESSION["email"])) {
+        if (!empty($_SESSION["email"])) {
             // If the if statement returns true, we'll get the 4th index in our array and change the string to logout.
             // Since the user is logged in, we want to display logout instead of login/register.
             $pageTitle[4] = "Logout";
@@ -89,4 +89,109 @@ function loopNavigation($currentPage)
         // We then echo out our html code.
         echo '><a id="' . $pageTitle[$i] . '" href="' . $fileNames[$i] . '">' . $pageTitle[$i] . '</a></li>';
     }
+}
+
+//Outputs all the contents for the footer.
+function footerOutput($currentPage)
+{
+    openFooter();
+    leftFooterOutput($currentPage);
+    centerFooterOutput();
+    rightFooterOutput();
+    closeFooter();
+    copyrightFooterOutput();
+    exit();
+}
+
+function leftFooterOutput($currentPage)
+{
+    // Using PHP, we'll add the first part of our navigation, which will be our class inside a div. It acts as a container.
+    echo '<div class="footer-container-left">
+        <h2>NAVIGATE</h2>
+        <hr style="background-color: white">
+        <div class="footer-nav">
+            <ul>';
+
+    loopNavigation($currentPage);
+
+    // At the end, we'll just close our elements tags.
+    echo '</ul></div></div>';
+}
+
+//A very simple php function to just output html.
+function centerFooterOutput()
+{
+    echo '<div class="footer-container-center">
+            <h2>SOCIALS</h2>
+            <hr style="background-color: white">
+            
+            <i class="fab fa-snapchat"></i>
+            <span>@AzuzAlDosari</span>
+            
+            <a href="https://www.instagram.com/Abzzzz._/">
+            <i class="fab fa-instagram"></i>
+            <span>@Abzzzz._</span>
+            </a>
+            
+            <a href="https://github.com/ItsAsta">
+            <i class="fab fa-github"></i>
+            <span>@ItsAsta</span>
+            </a>
+            
+            <a href="https://rspeer.org/">
+            <i class="fas fa-globe"></i>
+            <span>WWW.RSPeer.org</span>
+            </a>
+          </div>';
+}
+
+
+function rightFooterOutput() {
+
+    echo '<div class="footer-container-right">
+        <h2>BOOKINGS</h2>
+        <hr style="background-color: white">
+        <ul class="footer-top-list">';
+
+    if (!empty($_SESSION["email"])) {
+        $db = mysqli_connect('localhost', 'root', '', 'bbms') or die("Connection to database could not be established!");
+
+        $sql = "SELECT `booking`.*, `user`.*, `barbershop`.* FROM `booking` INNER JOIN `user` ON booking.booking_email = user.user_email INNER JOIN `barbershop` ON booking.barbershop_id = barbershop.barbershop_id WHERE booking.booking_email = '" . $_SESSION["email"] . "' AND `booking_status` = 0 ORDER BY CAST(booking_date_time_booked AS DATE) ASC LIMIT 3";
+        $result = mysqli_query($db, $sql);
+        $resultCheck = mysqli_num_rows($result);
+
+        if ($resultCheck > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<li>" . $row["barbershop_name"] . "</li>";
+                echo "<li style='font-style: italic'>" . date("d/m/Y H:i A", strtotime($row["booking_date_time_booked"])) . "</li>";
+            }
+        } else {
+            echo "<li>No Bookings!</li>";
+        }
+    } else {
+        echo "<li>No Bookings!</li>";
+    }
+
+    echo '</ul>
+    </div>';
+}
+
+
+function copyrightFooterOutput()
+{
+    echo '<div class="copyright-footer">
+        <span>© Middlesex University - AbdulAziz Al-Khafaji</span>
+    </div>';
+}
+
+//A function to open our footer element.
+function openFooter()
+{
+    echo '<div class="footer">';
+}
+
+//A function to close our footer element.
+function closeFooter()
+{
+    echo '</div></body></html>';
 }

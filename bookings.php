@@ -23,7 +23,7 @@ if (empty($_SESSION["email"])) {
         </thead>
         <tbody>
         <?php
-        if (isset($_SESSION["email"])) {
+        if (!empty($_SESSION["email"])) {
             $iniSql = "UPDATE `booking` set `booking_status` = 1 WHERE booking_date_time_booked < CURRENT_DATE()";
             $iniResult = mysqli_query($db, $iniSql);
 
@@ -70,7 +70,6 @@ if (empty($_SESSION["email"])) {
                                             echo "<h6 style='color: green'>";
                                             echo "Active </h6>";
                                         } ?>
-
                                     </div>
                                     <a class="btn btn-default modal-close-btn" data-dismiss="modal">&times;</a>
                                 </div>
@@ -88,7 +87,13 @@ if (empty($_SESSION["email"])) {
                                             <h6 style="font-weight: bold">Branch</h6>
                                             <h6><?php echo $row['barbershop_branch']; ?></h6>
                                             <h6 style="font-weight: bold">Date & Time</h6>
-                                            <h6><?php echo $row['booking_date_time_booked']; ?></h6>
+                                            <h6><?php echo date("d-m-Y g:i A", strtotime($row['booking_date_time_booked'])); ?></h6>
+                                        </div>
+
+                                        <div class="col-sm-auto">
+                                            <!-- Add modal content here -->
+                                            <h6 style="font-weight: bold">Phone Number</h6>
+                                            <h6><?php echo $row['barbershop_phone_number']; ?></h6>
                                         </div>
                                     </div>
                                 </div>
@@ -126,7 +131,7 @@ if (empty($_SESSION["email"])) {
                                             <!-- Add modal content here -->
                                             <p>Are you sure you want to cancel booking number
                                                 <b><?php echo $row['booking_reference'] ?></b>?</p>
-                                            <b>If a deposit has been made, you will lose it!</b>
+                                            <b>You will have to rebook if you change your mind!</b>
                                         </div>
                                     </div>
                                 </div>
@@ -146,7 +151,6 @@ if (empty($_SESSION["email"])) {
                             </div>
                         </div>
                     </div>
-
                     <?php
                 }
             } else {
@@ -154,17 +158,6 @@ if (empty($_SESSION["email"])) {
             }
         }
         ?>
-        <!--        <tr>-->
-        <!--            <td>1</td>-->
-        <!--            <td>Abdul</td>-->
-        <!--            <td>10/12/2020 10:00</td>-->
-        <!--            <td>Waves & Fades (Wembley)</td>-->
-        <!--            <td>Omran</td>-->
-        <!--            <td>-->
-        <!--                <button class="view-booking-details">VIEW<i class="fas fa-eye" style="padding: 5px"></i>-->
-        <!--                </button>-->
-        <!--            </td>-->
-        <!--        </tr>-->
         </tbody>
         <tfoot>
         <tr>
@@ -177,3 +170,5 @@ if (empty($_SESSION["email"])) {
         </tfoot>
     </table>
 </div>
+
+<?php footerOutput('Bookings') ?>

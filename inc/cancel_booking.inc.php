@@ -6,5 +6,6 @@ if (isset($_POST["cancel_booking"])) {
 
     require_once 'dbh.inc.php';
     require_once 'functions.inc.php';
+
     cancelBooking($db, $booking_reference);
 }

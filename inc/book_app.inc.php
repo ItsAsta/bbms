@@ -13,11 +13,8 @@ if (isset($_POST["bookApp"])) {
     $convertedTime = date( "H:i:s", strtotime($time));
     $convertedDate = date("Y-m-d", strtotime($date));
 
-//    $sql = "INSERT INTO `booking`(`barbershop_id`, `barber_id`, `email`, `date_time_of_booking`, `date_time_booked`, `status`) VALUES ('$barbershopId', '$barberId', '" . $_SESSION['email'] ."', '$currentDateTime', '" . $date . " " . $time . "', '1')";
-//
-//    $query = mysqli_query($db, $sql);
 
-    if (emptyInput(array($barberId, $barbershopId, $date, $time, $currentDateTime))) {
+    if (emptyInput(array($barberId, $barbershopId, $date, $time))) {
         header("location: ../book_app.php?error=incomplete");
         exit();
     }

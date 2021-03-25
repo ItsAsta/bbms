@@ -1,11 +1,16 @@
 $(document).ready(function () {
     $('#bookingTable').dataTable({
-        "bPaginate": false,
+        "bPaginate": true,
+        "pagingType": "full_numbers",
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "bLengthChange": false,
         "bFilter": true,
-        "bInfo": false,
+        "bInfo": true,
         "bAutoWidth": false,
         "aaSorting": [ [3,'asc'], [2,'asc'] ],
+        "columnDefs": [
+            { "width": "10%", "targets": 0 }
+        ]
     });
 
     $('#BarbershopSearch').picker({
@@ -30,6 +35,7 @@ $(document).ready(function () {
                 $("#bookBarberSelect").html(JSON.parse(resp[0]))
                 $("#bookedDate").datepicker('destroy');
                 $('#bookedDate').datepicker({
+                    dateFormat: 'dd/mm/yy',
                     startDate: new Date(),
                     endDate: "+2w",
                     autoclose: true,
@@ -43,6 +49,7 @@ $(document).ready(function () {
     });
 
     $('#bookedDate').datepicker({
+        dateFormat: 'dd/mm/yy',
         startDate: new Date(),
         endDate: "+2w",
         autoclose: true,

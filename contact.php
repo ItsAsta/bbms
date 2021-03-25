@@ -5,9 +5,6 @@ include_once('inc/header.inc.php');
 include_once('inc/dbh.inc.php');
 headerOutput('Contact', array("assets/styles/bootstrap.css", "assets/styles/stylesheet.css", "assets/styles/picker.css"));
 navigationOutput('Contact');
-if (empty($_SESSION["email"])) {
-    header("location: login.php");
-}
 ?>
 <div class="container" style="background-color: #1e1e1e; margin: 50px;">
     <div class="form-wrapper contact-page">
@@ -38,14 +35,14 @@ if (empty($_SESSION["email"])) {
                 if ($_GET["error"] == "empty") {
                     echo "<p class='error'>One or more fields are empty!</p>";
                     exit();
-                } else if ($_GET["stmtFailed"] == "stmtFailed") {
+                } else if ($_GET["error"] == "stmtFailed") {
                     echo "<p class='error'>Error sending message, please try again!</p>";
                 }
             }
 
             if (isset($_GET["success"])) {
                 if ($_GET["success"] == "yes") {
-                    echo "<p class='success'>Successfully sent message!</p>";
+                    echo "<p class='success'>Successfully sent message, please check your email!</p>";
                 }
             }
             ?>

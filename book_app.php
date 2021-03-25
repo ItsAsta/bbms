@@ -80,6 +80,9 @@ if (empty($_SESSION["email"])) {
         if ($_GET["error"] == "incomplete") {
             echo "<p class='error' style='text-align: center'>Please complete booking form!</p>";
             exit();
+        } else if ($_GET["error"] == "stmtFailed") {
+            echo "<p class='error' style='text-align: center'>Failed creating a booking, please try again!</p>";
+            exit();
         }
     }
     ?>

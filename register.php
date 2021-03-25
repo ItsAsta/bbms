@@ -68,6 +68,9 @@ navigationOutput('Home');
                 } elseif ($_GET["error"] == "phoneNumber") {
                     echo "<p class='error'>Phone number may only contain digits!</p>";
                     exit();
+                } else if ($_GET["error"] == "stmtFailed") {
+                    echo "<p class='error' style='text-align: center'>Failed registering, please try again!</p>";
+                    exit();
                 }
             }
             ?>

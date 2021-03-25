@@ -1,6 +1,8 @@
 <?php
 
 session_start();
+require("../PHPMailer/src/PHPMailer.php");
+require("../PHPMailer/src/SMTP.php");
 
 // Registration
 function emptyRegisterInput($email, $password, $confirmPassword, $firstName, $lastName, $address, $postcode, $phoneNumber) {
@@ -21,7 +23,7 @@ function userExists($db, $email) {
     $stmt = mysqli_stmt_init($db);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../register.inc.php?register=stmtFailed");
+        header("location: ../register.inc.php?error=stmtFailed");
         exit();
     }
 
@@ -45,7 +47,7 @@ function registerUser($db, $email, $password, $firstName, $lastName, $address, $
     $stmt = mysqli_stmt_init($db);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../register.inc.php?register=stmtFailed");
+        header("location: ../register.inc.php?error=stmtFailed");
         exit();
     }
 
@@ -62,6 +64,7 @@ function emptyInput($array) {
     foreach ($array as $value) {
         if (empty($value)) {
             $result = true;
+            return $result;
         } else {
             $result = false;
         }
@@ -101,7 +104,7 @@ function bookAppointment($db, $barbershopId, $barberId, $email, $bookedDate, $bo
     $stmt = mysqli_stmt_init($db);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../book_app.inc.php?booking=stmtFailed");
+        header("location: ../book_app.inc.php?error=stmtFailed");
         exit();
     }
 
@@ -119,10 +122,9 @@ function cancelBooking($db, $booking_reference) {
     $stmt = mysqli_stmt_init($db);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../book_app.inc.php?booking=stmtFailed");
+        header("location: ../book_app.inc.php?error=stmtFailed");
         exit();
     }
-
 
     mysqli_stmt_bind_param($stmt, "s", $booking_reference);
     mysqli_stmt_execute($stmt);
@@ -130,14 +132,14 @@ function cancelBooking($db, $booking_reference) {
     header("location: ../bookings.php");
 }
 
-function sendMessage($db, $email, $bookingRef, $subject, $message, $currentDateTime) {
+function receiveMessage($db, $email, $bookingRef, $subject, $message, $currentDateTime) {
     $sql = "INSERT INTO `inbox` (`inbox_email`, `inbox_booking_reference`, `inbox_subject`, `inbox_message`, `inbox_date_time`) VALUES
             (?, ?, ?, ?, ?)";
 
     $stmt = mysqli_stmt_init($db);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../contact.php?contact=stmtFailed");
+        header("location: ../contact.php?error=stmtFailed");
         exit();
     }
 
@@ -146,13 +148,37 @@ function sendMessage($db, $email, $bookingRef, $subject, $message, $currentDateT
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
-    header("location: ../contact.php?success=yes");
+    sendNoReplyMessage($email);
+}
+
+function sendNoReplyMessage($email) {
+    $mail = new PHPMailer\PHPMailer\PHPMailer();
+    $mail->IsSMTP();
+
+    $mail->SMTPDebug = 1;
+    $mail->SMTPAuth = true;
+    $mail->SMTPSecure = 'ssl';
+    $mail->Host = "smtp.gmail.com";
+    $mail->Port = 465;
+    $mail->IsHTML(true);
+    $mail->Username = "maxedasta@gmail.com";
+    $mail->Password = "15268";
+    $mail->SetFrom("no-reply@asta.dev");
+    $mail->Subject = "Email Received!";
+    $mail->Body = "Thank you for contacting us, we have successfully received your message! We will get back to you within 24 hours.";
+    $mail->AddAddress($email);
+
+    if(!$mail->Send()) {
+        header("location: ../contact.php?error=stmtFailed");
+    } else {
+        header("location: ../contact.php?success=yes");
+    }
 }
 
 // Redirects the page to the login page or view booking page depends if we are logged in.
 if (isset($_POST["loginRedirect"])) {
     session_start();
-    if (isset($_SESSION["email"])) {
+    if (empty($_SESSION["email"])) {
         // Redirect to a different page to do the booking passing over the store ID as reference to the page using POST
         header("location: ../bookings.php");
         exit();
