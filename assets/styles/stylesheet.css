@@ -497,6 +497,96 @@ form {
     text-decoration: none;
 }
 
+/*ABOUT US*/
+
+.about-us-container {
+    margin-top: 100px;
+}
+
+.about-us-heading {
+    text-align: center;
+}
+
+.about-us-heading li {
+    font-size: 20px;
+    display: inline;
+    padding: 0 50px 0 50px;
+    color: #7E7E7E;
+    border-bottom: #7E7E7E solid 1px;
+}
+
+.about-us-heading li:hover {
+    color: white;
+    border-bottom: white solid 1px;
+    cursor: pointer;
+}
+
+#aboutUsActive {
+    color: white;
+    border-bottom: white solid 1px;
+}
+
+.about-us-heading ul {
+    justify-content: center;
+    display: flex;
+}
+
+.about-us-body {
+    display: flex;
+    margin-top: 50px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.about-us-body p {
+    max-width: 750px;
+    text-align: center;
+}
+
+.about-us-body h4 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.about-us-body h4:hover {
+    cursor: pointer;
+}
+
+.about-us-title {
+    text-align: left;
+    margin-top: 50px;
+    margin-left: 20%;
+}
+
+/*DATE PICKER*/
+
+.dropdown-menu {
+    background-color: #1b1e21;
+    color: white;
+}
+
+.datepicker-switch:hover {
+    background-color: #003a5a !important;
+}
+
+.datepicker-days .day:hover {
+    background-color: #003a5a !important;
+    color: white;
+}
+
+.datepicker-days .day {
+    color: #ffffff;
+    /*font-weight: bold;*/
+}
+
+.datepicker-days .new {
+    color: white !important;
+}
+
+.datepicker-days .disabled {
+    color: #393939 !important;
+}
+
 /* Add Animation */
 @-webkit-keyframes drop-down-animation {
     from {top:-300px; opacity:0}

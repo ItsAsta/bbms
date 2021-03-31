@@ -6,7 +6,9 @@ function headerOutput($title, $styleSheetPath)
     echo '<!DOCTYPE html>
         <html lang="en">
         <head>
-        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">';
+        <link rel="icon" type="image/png" sizes="16x16" href="../assets/bbms_icon.png">
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BBMS</title>';
     //We iterate over the length of the passed array so we can echo out every stylesheet that is passed as an argument.
     for ($i = 0; $i < count($styleSheetPath); $i++) {
         echo '<link rel="stylesheet" type="text/css" href="' . $styleSheetPath[$i] . '">';
@@ -31,6 +33,7 @@ function outputScripts()
         <script src="assets/js/bootstrap.js"></script>
         <script src="assets/js/bootstrap-datepicker.js"></script>
         <script src="assets/js/jquery.timepicker.js"></script>
+        <script src="assets/js/moment.js"></script>
         ';
 }
 
@@ -53,17 +56,19 @@ function navigationOutput($currentPage)
 function loopNavigation($currentPage)
 {
     // An array variable with our page names, which we'll match using the index with our second array.
-    $pageTitle = array("Home", "Bookings", "Contact", "About", "Login");
+    $pageTitle = array("Home", "Bookings", "Contact", "About Us", "Login");
 
     // An array variable with our file names which we'll redirect to using the HREF attribute.
-    $fileNames = array("index.php", "bookings.php", "contact.php", "about.php", "login.php");
+    $fileNames = array("index.php", "bookings.php", "contact.php", "about_us.php", "login.php");
 
     if (empty($_SESSION["email"])) {
 
         array_splice($pageTitle, 1, 1);
-        array_splice($pageTitle, 2, 1);
         array_splice($fileNames, 1, 1);
+        array_splice($pageTitle, 2, 1);
         array_splice($fileNames, 2, 1);
+        array_splice($pageTitle, 1, 1);
+        array_splice($fileNames, 1, 1);
     }
 
     // We iterating over the length of $names array using a for loop.

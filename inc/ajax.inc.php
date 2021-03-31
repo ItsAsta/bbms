@@ -17,7 +17,7 @@ if (isset($_POST["populateBarbers"])) {
         array_push($barbers, "<option value='" . $row["barber_id"] . "'>" . $row["barber_name"] . "</option>");
     }
 
-    $sql = "SELECT `opening_hours_weekday` FROM `opening_hours` WHERE `barbershop_id` = " . $_POST["barbershopId"];
+    $sql = "SELECT `opening_hours_weekday` FROM `opening_hours` WHERE `barbershop_id` = " . $_POST["barbershopId"] . " AND `opening_hours_closed` = 0";
     $result = mysqli_query($db, $sql);
     $resultCheck = mysqli_num_rows($result);
     $openWeekdays = array();
@@ -52,7 +52,7 @@ if (isset($_POST["bookedTimes"])) {
 
     $jsonBookedTimes = json_encode($jsonBookedTimesObject);
 
-    $openCloseTimesSql = "SELECT `opening_hours_open_time`, `opening_hours_close_time` FROM `opening_hours` WHERE `barbershop_id` = " . $_POST['barbershopId'] . " AND opening_hours_weekday = " . $_POST["weekday"];
+    $openCloseTimesSql = "SELECT * FROM `opening_hours` WHERE `barbershop_id` = " . $_POST['barbershopId'] . " AND opening_hours_weekday = " . $_POST["weekday"];
 
     $openCloseTimesResult = mysqli_query($db, $openCloseTimesSql);
     $openCloseTimesResultCheck = mysqli_num_rows($openCloseTimesResult);

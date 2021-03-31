@@ -16,6 +16,7 @@ if (empty($_SESSION["email"])) {
         <tr>
             <th class="th-sm">Booking Reference</th>
             <th class="th-sm">Barbershop</th>
+            <th class="th-sm">Barber Name</th>
             <th class="th-sm">Date/Time Booked</th>
             <th class="th-sm">Status</th>
             <th class="th-sm">Details</th>
@@ -24,7 +25,7 @@ if (empty($_SESSION["email"])) {
         <tbody>
         <?php
         if (!empty($_SESSION["email"])) {
-            $iniSql = "UPDATE `booking` set `booking_status` = 1 WHERE booking_date_time_booked < CURRENT_DATE()";
+            $iniSql = "UPDATE `booking` set `booking_status` = 1 WHERE cast(booking_date_time_booked as date) <= cast(NOW() as date) AND cast(booking_date_time_booked as time(0)) < cast(NOW() as time(0))";
             $iniResult = mysqli_query($db, $iniSql);
 
             $sql = "SELECT `booking`.*, `barbershop`.*, `user`.*, `barber`.* FROM `booking` INNER JOIN `barbershop` ON booking.barbershop_id = barbershop.barbershop_id INNER JOIN `user` ON booking.booking_email = user.user_email INNER JOIN `barber` ON booking.barber_id = barber.barber_id WHERE booking.booking_email = '" . $_SESSION["email"] . "'";
@@ -38,6 +39,7 @@ if (empty($_SESSION["email"])) {
                     <?php
                     echo "<tr><td>" . $row["booking_reference"] . "</td>";
                     echo "<td>" . $row["barbershop_name"] . " (" . $row["barbershop_branch"] . ")</td>";
+                    echo "<td>" . $row["barber_name"] . "</td>";
                     echo "<td>" . date("d-m-Y g:i A", strtotime($row["booking_date_time_booked"])) . "</td>";
                     if (intval($row["booking_status"]) == 1) {
                         echo "<td style='color: red'>";
@@ -94,6 +96,8 @@ if (empty($_SESSION["email"])) {
                                             <!-- Add modal content here -->
                                             <h6 style="font-weight: bold">Phone Number</h6>
                                             <h6><?php echo $row['barbershop_phone_number']; ?></h6>
+                                            <h6 style="font-weight: bold">Email</h6>
+                                            <h6><?php echo $row['barbershop_email']; ?></h6>
                                         </div>
                                     </div>
                                 </div>
@@ -163,6 +167,7 @@ if (empty($_SESSION["email"])) {
         <tr>
             <th class="th-sm">Booking Reference</th>
             <th class="th-sm">Barbershop</th>
+            <th class="th-sm">Barber Name</th>
             <th class="th-sm">Email</th>
             <th class="th-sm">Date/Time Booked</th>
             <th class="th-sm">Status</th>

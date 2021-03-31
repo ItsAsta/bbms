@@ -87,3 +87,5 @@ if (empty($_SESSION["email"])) {
     }
     ?>
 </form>
+
+<?php footerOutput('Book Appointment') ?>

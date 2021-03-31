@@ -49,3 +49,5 @@ navigationOutput('Login');
         </form>
     </div>
 </div>
+
+<?php footerOutput('Login') ?>

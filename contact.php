@@ -5,10 +5,12 @@ include_once('inc/header.inc.php');
 include_once('inc/dbh.inc.php');
 headerOutput('Contact', array("assets/styles/bootstrap.css", "assets/styles/stylesheet.css", "assets/styles/picker.css"));
 navigationOutput('Contact');
+if (empty($_SESSION["email"])) {
+    header("location: login.php");
+}
 ?>
 <div class="container" style="background-color: #1e1e1e; margin: 50px;">
     <div class="form-wrapper contact-page">
-        <!-- LOGIN FORM -->
         <form method="post" action="inc/contact.inc.php">
             <h3>Write To Us</h3>
             <hr style="background-color: white">
@@ -49,3 +51,5 @@ navigationOutput('Contact');
         </form>
     </div>
 </div>
+
+<?php footerOutput('Contact'); ?>

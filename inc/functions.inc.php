@@ -162,7 +162,7 @@ function sendNoReplyMessage($email) {
     $mail->Port = 465;
     $mail->IsHTML(true);
     $mail->Username = "maxedasta@gmail.com";
-    $mail->Password = "15268";
+    $mail->Password = "gmailperker";
     $mail->SetFrom("no-reply@asta.dev");
     $mail->Subject = "Email Received!";
     $mail->Body = "Thank you for contacting us, we have successfully received your message! We will get back to you within 24 hours.";
