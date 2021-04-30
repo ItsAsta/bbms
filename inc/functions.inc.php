@@ -56,7 +56,7 @@ function registerUser($db, $email, $password, $firstName, $lastName, $address, $
     mysqli_stmt_bind_param($stmt, "sssssss", $email, $hashedPassword, $firstName, $lastName, $address, $postcode, $phoneNumber);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("location: ../register.php?success=yes");
+    header("location: ../login.php");
 }
 
 function emptyInput($array) {
@@ -104,7 +104,7 @@ function bookAppointment($db, $barbershopId, $barberId, $email, $bookedDate, $bo
     $stmt = mysqli_stmt_init($db);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../book_app.inc.php?error=stmtFailed");
+        header("location: ../index.inc.php?error=stmtFailed");
         exit();
     }
 
@@ -122,7 +122,7 @@ function cancelBooking($db, $booking_reference) {
     $stmt = mysqli_stmt_init($db);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../book_app.inc.php?error=stmtFailed");
+        header("location: ../bookings.inc.php?error=stmtFailed");
         exit();
     }
 
@@ -132,9 +132,9 @@ function cancelBooking($db, $booking_reference) {
     header("location: ../bookings.php");
 }
 
-function receiveMessage($db, $email, $bookingRef, $subject, $message, $currentDateTime) {
-    $sql = "INSERT INTO `inbox` (`inbox_email`, `inbox_booking_reference`, `inbox_subject`, `inbox_message`, `inbox_date_time`) VALUES
-            (?, ?, ?, ?, ?)";
+function receiveMessage($db, $email, $bookingRef, $subject, $message, $currentDateTime, $barbershopId) {
+    $sql = "INSERT INTO `inbox` (`inbox_email`, `inbox_booking_reference`, `inbox_subject`, `inbox_message`, `inbox_date_time`, `barbershop_id`) VALUES
+            (?, ?, ?, ?, ?, ?)";
 
     $stmt = mysqli_stmt_init($db);
 
@@ -144,7 +144,7 @@ function receiveMessage($db, $email, $bookingRef, $subject, $message, $currentDa
     }
 
 
-    mysqli_stmt_bind_param($stmt, "sssss", $email, $bookingRef, $subject, $message, $currentDateTime);
+    mysqli_stmt_bind_param($stmt, "sssss", $email, $bookingRef, $subject, $message, $currentDateTime, $barbershopId);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 

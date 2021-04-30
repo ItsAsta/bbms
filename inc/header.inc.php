@@ -7,14 +7,13 @@ function headerOutput($title, $styleSheetPath)
         <html lang="en">
         <head>
         <link rel="icon" type="image/png" sizes="16x16" href="../assets/bbms_icon.png">
-        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>BBMS</title>';
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">';
     //We iterate over the length of the passed array so we can echo out every stylesheet that is passed as an argument.
     for ($i = 0; $i < count($styleSheetPath); $i++) {
         echo '<link rel="stylesheet" type="text/css" href="' . $styleSheetPath[$i] . '">';
     }
 
-    echo '<title>' . $title . '</title>';
+    echo '<title>BBMS - ' . $title . '</title>';
 
     //This function echo's out our java scripts.
     outputScripts();

@@ -13,9 +13,13 @@ if (isset($_POST["bookApp"])) {
     $convertedTime = date( "H:i:s", strtotime($time));
     $convertedDate = date("Y-m-d", strtotime($date));
 
+    if (time() > strtotime($date . $time)) {
+        header("location: ../index.php?error=time");
+        exit();
+    }
 
     if (emptyInput(array($barberId, $barbershopId, $date, $time))) {
-        header("location: ../book_app.php?error=incomplete");
+        header("location: ../index.php?error=incomplete");
         exit();
     }
 
